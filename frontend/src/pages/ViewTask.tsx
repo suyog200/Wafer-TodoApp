@@ -3,7 +3,6 @@ import { useParams } from "react-router";
 import api from "../services/api";
 import toast from "react-hot-toast";
 import Header from "../components/Header";
-import AddTaskbtn from "../components/AddTaskbtn";
 import TaskCardActions from "../components/TaskCardActions";
 
 interface Task {
@@ -77,10 +76,6 @@ const ViewTask = () => {
       <div className="main-content">
         {/* Header */}
         <Header />
-
-        {/* Add new task button */}
-        <AddTaskbtn />
-
         {/* Tasks Section */}
         <section className="tasks-section">
           {loading ? (

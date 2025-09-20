@@ -112,9 +112,22 @@ body {
   margin-bottom: var(--spacing-8);
 }
 
-.add-task {
+.add-task-container {
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-8);
+}
+
+.filter-section {
+  display: flex;
+  gap: var(--spacing-4);
+  align-items: center;
+}
+
+.filter-font {
+  color: var(--white);
+  font-weight: 600;
 }
 
 .add-task-btn {

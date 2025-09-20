@@ -8,6 +8,7 @@ import type { Task } from "../types/types";
 
 const Home = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [filter, setFilter] = useState<string>("All");
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -28,6 +29,12 @@ const Home = () => {
 
   const completedTasks = tasks.filter((task) => task.status === "completed");
 
+  const filteredTasks = tasks.filter((task) => {
+    if (filter === "Completed") return task.status === "completed";
+    if (filter === "Incomplete") return task.status === "incomplete";
+    return true; 
+  });
+
   return (
     <div className="app-container">
       <div className="main-content">
@@ -35,11 +42,11 @@ const Home = () => {
         <Header />
 
         {/* Add new task button */}
-        <AddTaskbtn />
+        <AddTaskbtn onFilterChange={setFilter} />
 
         {/* Tasks Section */}
         <Card
-          tasks={tasks}
+          tasks={filteredTasks}
           loading={loading}
           completedTasks={completedTasks}
           navigate={navigate}
