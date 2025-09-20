@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
 import api from "../services/api";
+import toast from "react-hot-toast";
 
 // Types
 interface Task {
@@ -45,8 +46,15 @@ const Home = () => {
     );
   };
 
-  const deleteTask = (taskId: string) => {
-    setTasks((prev) => prev.filter((task) => task._id !== taskId));
+  const deleteTask = async (taskId: string) => {
+    try {
+        const response = await api.delete(`/tasks/${taskId}`);
+        setTasks((prev) => prev.filter((task) => task._id !== taskId));
+        toast.success(response.data.message);
+    } catch (error) {
+        console.error("Error deleting task:", error);
+        toast.error("Failed to delete task.");
+    }
   };
 
   const formatDate = (dateString: string) => {
