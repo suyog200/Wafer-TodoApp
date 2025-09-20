@@ -1,21 +1,15 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router";
 import api from "../services/api";
-import toast from "react-hot-toast";
-import { formatDate } from "../utils/utils";
-
-interface Task {
-  _id: string;
-  name: string;
-  description: string;
-  status: "completed" | "incomplete";
-  createdAt: string;
-  updatedAt: string;
-}
+import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
+import AddTaskbtn from "../components/AddTaskbtn";
+import Card from "../components/Card";
+import type { Task } from "../types/types";
 
 const Home = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -32,139 +26,24 @@ const Home = () => {
     fetchTasks();
   }, []);
 
-  const toggleTaskStatus = async (taskId: string) => {
-  try {
-    const task = tasks.find((t) => t._id === taskId);
-    if (!task) return;
-
-    const newStatus = task.status === "completed" ? "incomplete" : "completed";
-    const response = await api.patch(`/tasks/${taskId}`, {
-      status: newStatus,
-    });
-
-    // updting the ui after response
-    setTasks((prev) =>
-      prev.map((t) =>
-        t._id === taskId
-          ? { ...t, status: newStatus, updatedAt: new Date().toISOString() }
-          : t
-      )
-    );
-
-    toast.success(response.data.message || `Task marked ${newStatus}`);
-  } catch (error) {
-    console.error("Error toggling task status:", error);
-    toast.error("Failed to update task status");
-  }
-};
-
-  const deleteTask = async (taskId: string) => {
-    try {
-        const response = await api.delete(`/tasks/${taskId}`);
-        setTasks((prev) => prev.filter((task) => task._id !== taskId));
-        toast.success(response.data.message);
-    } catch (error) {
-        console.error("Error deleting task:", error);
-        toast.error("Failed to delete task.");
-    }
-  };
-
   const completedTasks = tasks.filter((task) => task.status === "completed");
 
   return (
     <div className="app-container">
       <div className="main-content">
         {/* Header */}
-        <header className="app-header">
-          <h1 className="app-title">Wafer Todo</h1>
-          <p className="app-subtitle">
-            Organize your tasks efficiently and boost your productivity
-          </p>
-        </header>
+        <Header />
 
         {/* Add new task button */}
-        <div className="add-task mb-6">
-          <Link to="/add-task" className="add-task-btn">
-            + Add New Task
-          </Link>
-        </div>
+        <AddTaskbtn />
 
         {/* Tasks Section */}
-        <section className="tasks-section">
-          {loading ? (
-            <div className="text-center">
-              <div className="loading-spinner"></div>
-              <p style={{ color: "white", marginTop: "1rem" }}>
-                Loading tasks...
-              </p>
-            </div>
-          ) : tasks.length === 0 ? (
-            <div className="empty-state">
-              <div className="empty-state-icon">📝</div>
-              <h3 className="empty-state-title">No tasks yet</h3>
-              <p className="empty-state-description">
-                Create your first task to get started with your productivity
-                journey!
-              </p>
-            </div>
-          ) : (
-            <>
-              <div className="text-center mb-6">
-                <h2 className="section-title">
-                  Your Tasks ({tasks.length} total, {completedTasks.length}{" "}
-                  completed)
-                </h2>
-              </div>
-              <div className="tasks-grid">
-                {tasks.map((task) => (
-                  <div
-                    key={task._id}
-                    className={`task-card ${
-                      task.status === "completed" ? "completed" : ""
-                    }`}
-                  >
-                    <div className="task-header">
-                      <h3 className="task-title">{task.name}</h3>
-                      <span className={`task-status ${task.status}`}>
-                        {task.status}
-                      </span>
-                    </div>
-
-                    <p className="task-description">{task.description}</p>
-
-                    <div className="task-meta">
-                      <span>Created: {formatDate(task.createdAt)}</span>
-                      {task.updatedAt !== task.createdAt && (
-                        <span>Updated: {formatDate(task.updatedAt)}</span>
-                      )}
-                    </div>
-
-                    <div className="task-actions">
-                      <button
-                        onClick={() => toggleTaskStatus(task._id)}
-                        className={`btn btn-small ${
-                          task.status === "completed"
-                            ? "btn-secondary"
-                            : "btn-success"
-                        }`}
-                      >
-                        {task.status === "completed"
-                          ? "Mark Incomplete"
-                          : "Mark Complete"}
-                      </button>
-                      <button
-                        onClick={() => deleteTask(task._id)}
-                        className="btn btn-small btn-danger"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
-        </section>
+        <Card
+          tasks={tasks}
+          loading={loading}
+          completedTasks={completedTasks}
+          navigate={navigate}
+        />
       </div>
     </div>
   );
