@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router";
 import api from "../services/api";
 import toast from "react-hot-toast";
+import { formatDate } from "../utils/utils";
 
-// Types
 interface Task {
   _id: string;
   name: string;
@@ -32,19 +32,31 @@ const Home = () => {
     fetchTasks();
   }, []);
 
-  const toggleTaskStatus = (taskId: string) => {
+  const toggleTaskStatus = async (taskId: string) => {
+  try {
+    const task = tasks.find((t) => t._id === taskId);
+    if (!task) return;
+
+    const newStatus = task.status === "completed" ? "incomplete" : "completed";
+    const response = await api.patch(`/tasks/${taskId}`, {
+      status: newStatus,
+    });
+
+    // updting the ui after response
     setTasks((prev) =>
-      prev.map((task) =>
-        task._id === taskId
-          ? {
-              ...task,
-              status: task.status === "completed" ? "incomplete" : "completed",
-              updatedAt: new Date().toISOString(),
-            }
-          : task
+      prev.map((t) =>
+        t._id === taskId
+          ? { ...t, status: newStatus, updatedAt: new Date().toISOString() }
+          : t
       )
     );
-  };
+
+    toast.success(response.data.message || `Task marked ${newStatus}`);
+  } catch (error) {
+    console.error("Error toggling task status:", error);
+    toast.error("Failed to update task status");
+  }
+};
 
   const deleteTask = async (taskId: string) => {
     try {
@@ -55,14 +67,6 @@ const Home = () => {
         console.error("Error deleting task:", error);
         toast.error("Failed to delete task.");
     }
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
   };
 
   const completedTasks = tasks.filter((task) => task.status === "completed");
