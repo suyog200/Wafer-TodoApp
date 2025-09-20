@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../services/api";
 import toast from "react-hot-toast";
+import { validateForm } from "../utils/validate";
 
 const AddTask = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,10 @@ const AddTask = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Validate form data
+    if (!validateForm(formData)) return;
+
     try {
       const res = await api.post("/tasks", formData);
       setFormData({ name: "", description: "" });
@@ -48,7 +53,6 @@ const AddTask = () => {
               }
               className="form-input"
               placeholder="Enter task name..."
-              required
             />
           </div>
 
@@ -65,7 +69,6 @@ const AddTask = () => {
                 setFormData({ ...formData, description: e.target.value })
               }
               placeholder="Enter task description..."
-              required
             />
           </div>
 
