@@ -3,7 +3,7 @@ import { useState, useContext } from "react";
 import api from "../services/api";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
-import { toast } from "react-hot-toast/headless";
+import toast from "react-hot-toast";
 import { validateLoginForm } from "../utils/validate";
 import "../styles/formstyles.css";
 
@@ -23,15 +23,16 @@ const Login = () => {
       setIsLoading(true);
       const res = await api.post("/auth/login", { email, password });
       toast.success("Login successful!");
-      login(res.data.token); 
+      login(res.data.token);
       navigate("/");
-
     } catch (error: any) {
-      toast.error(error.response?.data?.message);
+      toast.error(
+        error.response?.data?.message ||
+          "Login failed Please try again or check your credentials"
+      );
     } finally {
       setIsLoading(false);
     }
-
   };
 
   return (
