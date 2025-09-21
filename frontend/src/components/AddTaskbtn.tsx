@@ -2,9 +2,10 @@ import Select from "react-select";
 
 interface AddTaskbtnProps {
   onFilterChange: (value: string) => void;
+  onSearchChange: (value: string) => void;
 }
 
-const AddTaskbtn = ({ onFilterChange }: AddTaskbtnProps) => {
+const AddTaskbtn = ({ onFilterChange, onSearchChange }: AddTaskbtnProps) => {
   const options = [
     { value: "All", label: "All" },
     { value: "Completed", label: "Completed" },
@@ -26,11 +27,15 @@ const AddTaskbtn = ({ onFilterChange }: AddTaskbtnProps) => {
           }}
         />
       </div>
-
-      <div className="add-task">
-        <a href="/add-task" className="add-task-btn">
-          + Add New Task
-        </a>
+      <div className="search-add-section">
+        <div className="search-bar">
+          <input type="text" placeholder="Search tasks by name" onChange={(e) => onSearchChange(e.target.value)} />
+        </div>
+        <div className="add-task">
+          <a href="/add-task" className="add-task-btn">
+            + Add New Task
+          </a>
+        </div>
       </div>
     </div>
   );

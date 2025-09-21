@@ -171,6 +171,24 @@ body {
   cursor: pointer;
 }
 
+.search-add-section {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.search-bar {
+  background: #fff;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  font-size: 0.95rem;
+  width: 200px;
+}
+
 /* ===== TASK FORM STYLES ===== */
 .task-form {
   background: var(--white);
@@ -598,7 +616,7 @@ body {
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 680px) {
   .add-task-container {
     flex-direction: column;
     align-items: stretch;
@@ -617,6 +635,16 @@ body {
     width: 100%;
     text-align: center;
   }
+
+  .search-add-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .search-bar input {
+    width: 100%;
+    padding: 0.4rem 0.6rem;
+    border-radius: 8px;
+  }  
 }
 
 @media (max-width: 480px) {

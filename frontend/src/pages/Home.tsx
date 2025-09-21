@@ -10,6 +10,7 @@ const Home = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [filter, setFilter] = useState<string>("All");
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,6 +36,10 @@ const Home = () => {
     return true; 
   });
 
+  const searchAndFilterTasks = filteredTasks.filter((task) => {
+    return task.name.toLowerCase().includes(searchTerm.toLowerCase());
+  });
+
   return (
     <div className="app-container">
       <div className="main-content">
@@ -42,11 +47,11 @@ const Home = () => {
         <Header />
 
         {/* Add new task button */}
-        <AddTaskbtn onFilterChange={setFilter} />
+        <AddTaskbtn onFilterChange={setFilter} onSearchChange={setSearchTerm} />
 
         {/* Tasks Section */}
         <Card
-          tasks={filteredTasks}
+          tasks={searchAndFilterTasks}
           loading={loading}
           completedTasks={completedTasks}
           navigate={navigate}

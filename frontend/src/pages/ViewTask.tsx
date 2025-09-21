@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import api from "../services/api";
 import toast from "react-hot-toast";
 import Header from "../components/Header";
@@ -112,7 +112,12 @@ const ViewTask = () => {
 
   return (
     <div className="app-container">
-      <div className="main-content">
+     <div className="main-content">
+      <div>
+          <Link to="/" className="back-link">
+            &larr; Back to Home
+          </Link>
+      </div>
         <Header />
         <section className="tasks-section">
           {loading ? (
