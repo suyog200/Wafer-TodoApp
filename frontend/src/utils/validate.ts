@@ -27,3 +27,49 @@ export const validateForm = (formData: { name: string; description: string; }) =
     }
     return true;
   };
+
+  export const validateRegisterForm = (formData: { name: string; email: string; password: string; }) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.name.trim()) {
+      toast.error("Name cannot be empty");
+      return false;
+    }
+    if (formData.name.length < 3) {
+      toast.error("Name must be at least 3 characters long");
+      return false;
+    }
+    if (formData.name.length > 30) {
+      toast.error("Name cannot exceed 30 characters");
+      return false;
+    }
+    if (!formData.email.trim()) {
+      toast.error("Email cannot be empty");
+      return false;
+    }
+    if (!emailRegex.test(formData.email)) {
+      toast.error("Invalid email format");
+      return false;
+    }
+    if (formData.password.length < 6) {
+      toast.error("Password must be at least 6 characters long");
+      return false;
+    }
+    return true;
+  }
+
+  export const validateLoginForm = (formData: { email: string; password: string; }) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(!formData.email.trim()) {
+      toast.error("Email cannot be empty");
+      return false;
+    }
+    if (!emailRegex.test(formData.email)) {
+      toast.error("Invalid email format");
+      return false;
+    }
+    if (formData.password.length < 6) {
+      toast.error("Password must be at least 6 characters long");
+      return false;
+    }
+    return true;
+  }
