@@ -4,6 +4,7 @@ export interface Task {
   name: string;
   description: string;
   status: "completed" | "incomplete";
+  user: mongoose.Types.ObjectId;
 }
 
 const taskSchema = new mongoose.Schema<Task>(
@@ -15,6 +16,7 @@ const taskSchema = new mongoose.Schema<Task>(
       enum: ["completed", "incomplete"],
       default: "incomplete",
     },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }
   },
   { timestamps: true }
 );

@@ -2,13 +2,23 @@ import type { Request, Response } from "express";
 import mongoose from "mongoose";
 import Task from "../models/Task";
 
+// Extend Express Request interface to include userId
+declare global {
+  namespace Express {
+    interface Request {
+      userId?: string;
+    }
+  }
+}
+
+
 import { isValidObjectId, isValidStatus, sanitizeInput } from "../utils/helper";
 let taskStatus: "completed" | "incomplete" = "incomplete";
 
 // Get all tasks ================================================================
 export const getTasks = async (req: Request, res: Response): Promise<void> => {
   try {
-    const tasks = await Task.find().sort({ createdAt: -1 });
+    const tasks = await Task.find({ user: req.userId }).sort({ createdAt: -1 });
 
     res.status(200).json({
       success: true,
@@ -91,6 +101,7 @@ export const addTask = async (req: Request, res: Response): Promise<void> => {
       name: sanitizedName,
       description: sanitizedDescription,
       status: taskStatus,
+      user: req.userId,
     });
 
     const savedTask = await task.save();
@@ -142,7 +153,7 @@ export const updateTask = async (
     }
 
     // Check if task exists
-    const existingTask = await Task.findById(id);
+    const existingTask = await Task.findOne({ _id: id, user: req.userId });
     if (!existingTask) {
       res.status(404).json({
         success: false,
@@ -286,7 +297,7 @@ export const deleteTask = async (
       return;
     }
 
-    const deletedTask = await Task.findByIdAndDelete(id);
+    const deletedTask = await Task.findOneAndDelete({ _id: id, user: req.userId });
 
     if (!deletedTask) {
       res.status(404).json({
