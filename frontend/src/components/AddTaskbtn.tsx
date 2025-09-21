@@ -14,7 +14,9 @@ const AddTaskbtn = ({ onFilterChange }: AddTaskbtnProps) => {
   return (
     <div className="add-task-container">
       <div className="filter-section">
-        <p className="filter-font">Filter By</p>
+        <div>
+          <p className="filter-font">Filter By</p>
+        </div>
         <Select
           options={options}
           defaultValue={options[0]}

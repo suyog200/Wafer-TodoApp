@@ -19,8 +19,8 @@ router.get("/:id", getTaskById);
 // POST /api/tasks - Create new task
 router.post("/", addTask);
 
-// PUT /api/tasks/:id - Update task
-router.put("/:id", updateTask);
+// PATCH /api/tasks/edit/:id - Update task name and description
+router.put("/edit/:id", updateTask);
 
 // PATCH /api/tasks/:id - Update task status
 router.patch("/:id", updateTaskStatus);

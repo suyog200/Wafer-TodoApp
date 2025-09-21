@@ -3,12 +3,13 @@ import { formatDate } from "../utils/utils";
 
 interface TaskCardProps {
   task: Task;
-  onView?: (id: string) => void; // For Home
-  onToggle?: (id: string) => void; // For ViewTask
-  onDelete?: (id: string) => void; // For ViewTask
+  onEdit?: (task: Task) => void;
+  onView?: (id: string) => void;
+  onToggle?: (id: string) => void;
+  onDelete?: (id: string) => void;
 }
 
-const TaskCardActions = ({ task, onView, onToggle, onDelete }: TaskCardProps) => {
+const TaskCardActions = ({ task, onEdit, onView, onToggle, onDelete }: TaskCardProps) => {
   return (
     <div
       className={`task-card ${task.status === "completed" ? "completed" : ""}`}
@@ -28,6 +29,11 @@ const TaskCardActions = ({ task, onView, onToggle, onDelete }: TaskCardProps) =>
       </div>
 
       <div className="task-actions">
+        {onEdit && (
+          <button onClick={() => onEdit(task)} className="btn btn-primary">
+            Edit
+          </button>
+        )}
         {onView && (
           <button onClick={() => onView(task._id)} className="btn btn-primary">
             View
