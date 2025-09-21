@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import api from "../services/api";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import AddTaskbtn from "../components/AddTaskbtn";
 import Card from "../components/Card";
 import type { Task } from "../types/types";
+import { AuthContext } from "../context/authContext";
 
 const Home = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -12,6 +13,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const navigate = useNavigate();
+  const { logout } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -43,6 +45,9 @@ const Home = () => {
   return (
     <div className="app-container">
       <div className="main-content">
+        <div className="logout-button">
+          <button className="logout-btn" onClick={logout}>Logout</button>
+        </div>
         {/* Header */}
         <Header />
 

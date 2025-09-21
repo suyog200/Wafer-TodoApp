@@ -244,6 +244,35 @@ body {
   justify-content: flex-end;
 }
 
+/* src/styles/logout.css */
+
+.logout-button {
+  display: flex;
+  justify-content: flex-end;
+  margin: 1rem;
+}
+
+.logout-btn {
+  padding: 0.6rem 1.2rem;
+  background-color: #ef4444; /* red */
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.logout-btn:hover {
+  background-color: #dc2626; /* darker red */
+}
+
+.logout-btn:active {
+  transform: scale(0.97);
+}
+
+
 /* ===== BUTTON STYLES ===== */
 .btn {
   padding: var(--spacing-4) var(--spacing-6);
