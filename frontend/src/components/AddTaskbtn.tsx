@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import Select from "react-select";
 
 interface AddTaskbtnProps {
@@ -32,9 +33,9 @@ const AddTaskbtn = ({ onFilterChange, onSearchChange }: AddTaskbtnProps) => {
           <input type="text" placeholder="Search tasks by name" onChange={(e) => onSearchChange(e.target.value)} />
         </div>
         <div className="add-task">
-          <a href="/add-task" className="add-task-btn">
+          <Link to="/add-task" className="add-task-btn">
             + Add New Task
-          </a>
+          </Link>
         </div>
       </div>
     </div>
