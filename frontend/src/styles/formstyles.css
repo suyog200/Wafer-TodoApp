@@ -3,13 +3,13 @@
   max-width: 400px;
   margin: 5vh auto;
   padding: 2rem;
-  background-color: #1f2937; /* dark background */
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   color: #f9fafb;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .auth-container h2 {
@@ -28,10 +28,9 @@
 .auth-container input {
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
-  border: 1px solid #374151;
+  border: none;
   border-radius: 8px;
-  background-color: #111827;
-  color: #f9fafb;
+  color: #000000;
   font-size: 1rem;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
@@ -61,7 +60,7 @@
 
 .auth-container a {
   text-align: center;
-  color: #93c5fd;
+  color: #ffffff;
   text-decoration: none;
   font-size: 0.9rem;
   transition: color 0.2s;
