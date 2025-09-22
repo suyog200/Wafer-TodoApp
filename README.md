@@ -52,7 +52,7 @@ Follow these steps to run the project locally.
 
 ### 1️⃣ Clone the repository
 ```bash
-git clone https://github.com/suyog200/wafer-technologiesTest.git
+git clone https://github.com/suyog200/Wafer-TodoApp.git
 cd wafer-techologiesTest
 ```
 
